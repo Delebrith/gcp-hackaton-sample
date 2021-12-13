@@ -40,7 +40,7 @@ class KotlinApplication {
 
 //                ServerResponse.ok().body(Mono.just(listOf("F", "R", "L", "T").random()))
                 if (canBeHit.isNotEmpty())
-                    return@flatMap ServerResponse.ok().body(Mono.just(listOf("T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "R", "F").random()))
+                    return@flatMap ServerResponse.ok().body(Mono.just(listOf("T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T","T", "T", "T", "T", "R", "F").random()))
                 else if (couldBeHit.isNotEmpty()) {
                     return@flatMap ServerResponse.ok().body(Mono.just(listOf("R", "R", "R", "R", "R", "R", "R", "R", "R", "F").random()))
                 } 
