@@ -54,7 +54,7 @@ class KotlinApplication {
                         listOf("R", "R", "R", "R", "R", "R", "R", "R", "R", "F").random()
                 }
                 else {
-                    listOf("F", "F", "F", "F", "F", "F", "R", "R").random()
+                    "R"
                 }
 
                 moves.add(0, result)
