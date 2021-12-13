@@ -8,12 +8,13 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.body
 import org.springframework.web.reactive.function.server.router
 import reactor.core.publisher.Mono
+import java.util.Collections
 import kotlin.math.abs
 
 @SpringBootApplication
 class KotlinApplication {
 
-    val moves = mutableListOf<String>()
+    val moves = Collections.synchronizedList(mutableListOf<String>()) as MutableList
 
     @Bean
     fun routes() = router {
@@ -55,11 +56,10 @@ class KotlinApplication {
                 }
                 else {
                     listOf("R", "R", "R", "R", "F").random()
-                }   
+                }
 
                 moves.add(0, result)
                 if (moves.size >= 5) moves.removeLast()
-
                 println("Past moves: $moves")
                 ServerResponse.ok().body(Mono.just(result))
             }
