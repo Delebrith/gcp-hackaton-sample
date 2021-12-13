@@ -30,16 +30,16 @@ class KotlinApplication {
 
                 val players = arenaUpdate.arena
                     .state.entries
-                    .map { state -> Coords(state.value.x, state.value.y) to state.value }
 
                 val couldBeHit =  players
-                    .filter { player -> player.first.x == me.x || player.first.y == me.y }
-                    .filter { player -> abs(player.first.x - me.x) < 3 || abs(player.first.y - me.y) < 3 }
+                    .filter { it.key != arenaUpdate._links.self.href }
+                    .filter { player -> player.value.x == me.x || player.value.y == me.y }
+                    .filter { player -> abs(player.value.x - me.x) < 3 || abs(player.value.y - me.y) < 3 }
 
 
-                val canBeHit = couldBeHit.filter { it.second.canBeHitBy(me) }
+                val canBeHit = couldBeHit.filter { it.value.canBeHitBy(me) }
 
-                val canHitMe = couldBeHit.filter { it.second.faces(me) }
+                val canHitMe = couldBeHit.filter { it.value.faces(me) }
 
 
 //                ServerResponse.ok().body(Mono.just(listOf("F", "R", "L", "T").random()))
