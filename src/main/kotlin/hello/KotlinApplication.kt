@@ -12,7 +12,7 @@ import kotlin.math.abs
 
 @SpringBootApplication
 class KotlinApplication {
-    
+
     val moves = mutableListOf<String>()
 
     @Bean
@@ -37,23 +37,27 @@ class KotlinApplication {
 
 
                 val canBeHit = couldBeHit.filter { it.second.canBeHitBy(me) }
-                
+
                 val canHitMe = couldBeHit.filter { it.second.faces(me) }
 
 
 //                ServerResponse.ok().body(Mono.just(listOf("F", "R", "L", "T").random()))
-                val result = if (canBeHit.isNotEmpty())
-                    listOf("T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T","T", "T", "T", "T", "R", "F").random()
-                else if (couldBeHit.isNotEmpty()) {
+                val result = if (canBeHit.isNotEmpty()) {
+                    if (me.wasHit && moves.take(5).all { it.equals("T") })
+                        listOf("R", "F").random()
+                    else 
+                        "T"
+                } else if (couldBeHit.isNotEmpty()) {
                     if (me.wasHit && canHitMe.isNotEmpty())
                         listOf("R", "F").random()
                     else
                         listOf("R", "R", "R", "R", "R", "R", "R", "R", "R", "F").random()
                 }
-                else
+                else {
                     listOf("F", "F", "F", "F", "F", "F", "F", "F", "R", "L").random()
+                }
 
-                moves.add(result)
+                moves.add(0, result)
                 println("Past moves: $moves")
                 ServerResponse.ok().body(Mono.just(result))
             }
