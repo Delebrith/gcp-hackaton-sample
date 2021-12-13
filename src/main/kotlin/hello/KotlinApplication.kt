@@ -13,7 +13,7 @@ import kotlin.math.abs
 @SpringBootApplication
 class KotlinApplication {
 
-    val moves = mutableListOf<String>()
+    val moves = Collections.synchronizedList(mutableListOf<String>()) as MutableList
 
     @Bean
     fun routes() = router {
@@ -58,7 +58,7 @@ class KotlinApplication {
                 }   
 
                 moves.add(0, result)
-                if (moves.size >= 5) moves.dropLast(1)
+                if (moves.size >= 5) moves.removeLast()
 
                 println("Past moves: $moves")
                 ServerResponse.ok().body(Mono.just(result))
