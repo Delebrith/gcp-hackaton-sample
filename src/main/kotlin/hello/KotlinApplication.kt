@@ -12,6 +12,8 @@ import kotlin.math.abs
 
 @SpringBootApplication
 class KotlinApplication {
+    
+    val moves = mutableListOf<String>()
 
     @Bean
     fun routes() = router {
@@ -34,19 +36,26 @@ class KotlinApplication {
                     .filter { player -> abs(player.first.x - me.x) <= 3 || abs(player.first.y - me.y) <= 3 }
 
 
-                val canBeHit = couldBeHit
-                    .filter { player -> player.second.canBeHit(me) }
+                val canBeHit = couldBeHit.filter { it.second.canBeHitBy(me) }
+                
+                val canHitMe = couldBeHit.filter { it.second.faces(me) }
 
 
 //                ServerResponse.ok().body(Mono.just(listOf("F", "R", "L", "T").random()))
-                if (canBeHit.isNotEmpty())
-                    return@flatMap ServerResponse.ok().body(Mono.just(listOf("T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T","T", "T", "T", "T", "R", "F").random()))
+                val result = if (canBeHit.isNotEmpty())
+                    listOf("T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T","T", "T", "T", "T", "R", "F").random()
                 else if (couldBeHit.isNotEmpty()) {
-                    return@flatMap ServerResponse.ok().body(Mono.just(listOf("R", "R", "R", "R", "R", "R", "R", "R", "R", "F").random()))
-                } 
+                    if (me.wasHit && canHitMe.isNotEmpty())
+                        listOf("R", "F").random()
+                    else
+                        listOf("R", "R", "R", "R", "R", "R", "R", "R", "R", "F").random()
+                }
                 else
-                    return@flatMap ServerResponse.ok().body(Mono.just(listOf("F", "F", "F", "F", "F", "F", "F", "F", "R", "L").random()))
+                    listOf("F", "F", "F", "F", "F", "F", "F", "F", "R", "L").random()
 
+                moves.add(result)
+                println("Past moves: $moves")
+                ServerResponse.ok().body(Mono.just(result))
             }
         }
     }
@@ -58,7 +67,7 @@ fun main(args: Array<String>) {
 
 data class ArenaUpdate(val _links: Links, val arena: Arena)
 data class PlayerState(val x: Int, val y: Int, val direction: String, val score: Int, val wasHit: Boolean) {
-    fun canBeHit(me: PlayerState): Boolean {
+    fun canBeHitBy(me: PlayerState): Boolean {
         return when (me.direction) {
             "N" -> x == me.x && y < me.y
             "S" -> x == me.x && y > me.y
@@ -70,10 +79,10 @@ data class PlayerState(val x: Int, val y: Int, val direction: String, val score:
 
     fun faces(me: PlayerState): Boolean {
         return when (direction) {
-            "N" -> x == me.x && y >= me.y
-            "S" -> x == me.x && y <= me.y
-            "E" -> x <= me.x && y == me.y
-            "W" -> x >= me.x && y == me.y
+            "N" -> x == me.x && y > me.y
+            "S" -> x == me.x && y < me.y
+            "E" -> x < me.x && y == me.y
+            "W" -> x > me.x && y == me.y
             else -> false
         }
     }
