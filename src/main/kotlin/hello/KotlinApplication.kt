@@ -49,13 +49,13 @@ class KotlinApplication {
                         "T"
                 } else if (couldBeHit.isNotEmpty()) {
                     if (me.wasHit && canHitMe.isNotEmpty())
-                        "listOf("R", "F", "F", "F").random()"
+                        listOf("R", "F", "F", "F").random()
                     else
                         listOf("R", "R", "R", "R", "R", "R", "R", "R", "R", "F").random()
                 }
                 else {
-                    if (moves.take(3).all { it.equals("F") } ) "R" else "F"
-                }
+                    listOf("R", "R", "R", "R", "F").random()
+                }   
 
                 moves.add(0, result)
                 println("Past moves: $moves")
