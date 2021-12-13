@@ -43,9 +43,9 @@ class KotlinApplication {
 
 //                ServerResponse.ok().body(Mono.just(listOf("F", "R", "L", "T").random()))
                 val result = if (canBeHit.isNotEmpty()) {
-                    if (me.wasHit && moves.take(5).all { it.equals("T") })
+                    if (me.wasHit && moves.take(3).all { it.equals("T") })
                         listOf("R", "F").random()
-                    else 
+                    else
                         "T"
                 } else if (couldBeHit.isNotEmpty()) {
                     if (me.wasHit && canHitMe.isNotEmpty())
