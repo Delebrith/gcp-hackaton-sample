@@ -41,8 +41,8 @@ class KotlinApplication {
 //                ServerResponse.ok().body(Mono.just(listOf("F", "R", "L", "T").random()))
                 if (canBeHit.isNotEmpty())
                     return@flatMap ServerResponse.ok().body(Mono.just("T"))
-                else if (couldBeHit.isNotEmpty()) {
-                    return@flatMap ServerResponse.ok().body(Mono.just("R"))
+                //else if (couldBeHit.isNotEmpty()) {
+                //    return@flatMap ServerResponse.ok().body(Mono.just("R"))
                 } else
                     return@flatMap ServerResponse.ok().body(Mono.just(listOf("F", "F", "F", "F", "R", "L").random()))
 
