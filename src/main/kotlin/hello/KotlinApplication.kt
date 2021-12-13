@@ -34,7 +34,7 @@ class KotlinApplication {
 
                 val couldBeHit =  players
                     .filter { player -> player.first.x == me.x || player.first.y == me.y }
-                    .filter { player -> abs(player.first.x - me.x) <= 3 || abs(player.first.y - me.y) <= 3 }
+                    .filter { player -> abs(player.first.x - me.x) < 3 || abs(player.first.y - me.y) < 3 }
 
 
                 val canBeHit = couldBeHit.filter { it.second.canBeHitBy(me) }
