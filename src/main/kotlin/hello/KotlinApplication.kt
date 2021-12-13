@@ -59,10 +59,10 @@ data class ArenaUpdate(val _links: Links, val arena: Arena)
 data class PlayerState(val x: Int, val y: Int, val direction: String, val score: Int, val wasHit: Boolean) {
     fun canBeHit(me: PlayerState): Boolean {
         return when (me.direction) {
-            "N" -> x == me.x && y <= me.y
-            "S" -> x == me.x && y >= me.y
-            "E" -> x >= me.x && y == me.y
-            "W" -> x <= me.x && y == me.y
+            "N" -> x == me.x && y < me.y
+            "S" -> x == me.x && y > me.y
+            "E" -> x > me.x && y == me.y
+            "W" -> x < me.x && y == me.y
             else -> false
         }
     }
