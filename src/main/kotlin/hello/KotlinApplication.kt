@@ -13,7 +13,7 @@ import kotlin.math.abs
 @SpringBootApplication
 class KotlinApplication {
 
-    val moves = Collections.synchronizedList(mutableListOf<String>()) as MutableList
+    val moves = mutableListOf<String>()
 
     @Bean
     fun routes() = router {
