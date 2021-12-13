@@ -58,6 +58,8 @@ class KotlinApplication {
                 }   
 
                 moves.add(0, result)
+                if (moves.size >= 5) moves.dropLast(1)
+
                 println("Past moves: $moves")
                 ServerResponse.ok().body(Mono.just(result))
             }
